@@ -6,6 +6,10 @@ This project adds traffic lights functionality to the udacity [starter code](htt
 
 This update deals with increasing traffic in the city, where traffic lights are needed for road safety. Each intersection is therefore equipped with a traffic light. Alsi this update builds a suitable and thread-safe communication protocol between vehicles and intersections to complete the simulation. In order to achieve that, concepts of concurrent programming (such as mutexes, locks and message queues) are used to implement the traffic lights and thier integration in the code base.
 
+## Project schematic
+
+<img src="data/schematic.png"/>
+
 ## Dependencies for Running Locally
 * cmake >= 2.8
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
