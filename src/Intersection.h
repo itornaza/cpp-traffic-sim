@@ -25,9 +25,12 @@ public:
   void permitEntryToFirstInQueue();
 
 private:
-  std::vector<std::shared_ptr<Vehicle>>
-      _vehicles; // list of all vehicles waiting to enter this intersection
-  std::vector<std::promise<void>> _promises; // list of associated promises
+  // list of all vehicles waiting to enter this intersection
+  std::vector<std::shared_ptr<Vehicle>> _vehicles; 
+
+  // list of associated promises
+  std::vector<std::promise<void>> _promises; 
+
   std::mutex _mutex;
 };
 
@@ -42,9 +45,12 @@ public:
   // typical behaviour methods
   void addVehicleToQueue(std::shared_ptr<Vehicle> vehicle);
   void addStreet(std::shared_ptr<Street> street);
+
+  // return pointer to current list of all outgoing streets 
   std::vector<std::shared_ptr<Street>> queryStreets(
-      std::shared_ptr<Street>
-          incoming); // return pointer to current list of all outgoing streets
+    std::shared_ptr<Street>incoming
+  );
+
   void simulate() override;
   void vehicleHasLeft(std::shared_ptr<Vehicle> vehicle);
   bool trafficLightIsGreen();
@@ -54,13 +60,17 @@ private:
   void processVehicleQueue();
 
   // private members
-  std::vector<std::shared_ptr<Street>>
-      _streets; // list of all streets connected to this intersection
-  WaitingVehicles
-      _waitingVehicles; // list of all vehicles and their associated promises
-                        // waiting to enter the intersection
-  bool _isBlocked; // flag indicating wether the intersection is blocked by a
-                   // vehicle
+  
+  // list of all streets connected to this intersection
+  std::vector<std::shared_ptr<Street>> _streets;
+
+  // list of all vehicles and their associated promises waiting to enter the 
+  // intersection
+  WaitingVehicles _waitingVehicles;
+
+  // flag indicating wether the intersection is blocked by a vehicle
+  bool _isBlocked; 
+
   TrafficLight _trafficLight;
 };
 

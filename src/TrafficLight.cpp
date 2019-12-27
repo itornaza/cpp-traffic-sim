@@ -47,7 +47,7 @@ template <class T> void MessageQueue<T>::send(T &&message) {
 
 TrafficLight::TrafficLight() { 
   _currentPhase = TrafficLightPhase::red; 
-  _message_queue = std::make_shared<MessageQueue<TrafficLightPhase>>();
+  _phasesQueue = std::make_shared<MessageQueue<TrafficLightPhase>>();
 }
 
 void TrafficLight::waitForGreen() {
@@ -64,7 +64,7 @@ void TrafficLight::waitForGreen() {
     // sleep at every iteration to reduce CPU usage
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-    TrafficLightPhase phase = _message_queue->receive();
+    TrafficLightPhase phase = _phasesQueue->receive();
     setCurrentPhase(phase);
     if (phase == TrafficLightPhase::green) { return; }
   }
@@ -116,7 +116,7 @@ void TrafficLight::cycleThroughPhases() {
       TrafficLightPhase message = getCurrentPhase();
       auto future = std::async(std::launch::async, 
                                &MessageQueue<TrafficLightPhase>::send,
-                               _message_queue, 
+                               _phasesQueue, 
                                std::move(message));
       future.wait();
 
