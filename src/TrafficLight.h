@@ -59,7 +59,7 @@ private:
   // TrafficLightPhase into it by calling send in conjunction with move
   // semantics.
 
-  std::shared_ptr<MessageQueue<TrafficLightPhase>> _message_queue;
+  std::shared_ptr<MessageQueue<TrafficLightPhase>> _phasesQueue;
   TrafficLightPhase _currentPhase;
   std::condition_variable _condition;
   std::mutex _mutex;
