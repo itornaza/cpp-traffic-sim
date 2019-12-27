@@ -87,20 +87,21 @@ void Intersection::addVehicleToQueue(std::shared_ptr<Vehicle> vehicle) {
   lck.lock();
   std::cout << "Intersection #" << _id << ": Vehicle #" << vehicle->getID()
             << " is granted entry." << std::endl;
+  lck.unlock();
 
   // FP.6b : use the methods TrafficLight::getCurrentPhase and
   // TrafficLight::waitForGreen to block the execution until the traffic light
   // turns green.
-  lck.unlock();
   while (_trafficLight.getCurrentPhase() != TrafficLightPhase::green) {
     _trafficLight.waitForGreen();
   }
-
 }
 
 void Intersection::vehicleHasLeft(std::shared_ptr<Vehicle> vehicle) {
-  // std::cout << "Intersection #" << _id << ": Vehicle #" << vehicle->getID()
-  // << " has left." << std::endl;
+  std::unique_lock<std::mutex> lck(_mtx);
+  std::cout << "Intersection #" << _id << ": Vehicle #" << vehicle->getID()
+            << " has left." << std::endl;
+  lck.unlock();
 
   // unblock queue processing
   this->setIsBlocked(false);
@@ -108,8 +109,10 @@ void Intersection::vehicleHasLeft(std::shared_ptr<Vehicle> vehicle) {
 
 void Intersection::setIsBlocked(bool isBlocked) {
   _isBlocked = isBlocked;
-  // std::cout << "Intersection #" << _id << " isBlocked=" << isBlocked <<
-  // std::endl;
+  std::unique_lock<std::mutex> lck(_mtx);
+  std::cout << "Intersection #" << _id << " isBlocked=" << isBlocked 
+            << std::endl;
+  lck.unlock();
 }
 
 // virtual function which is executed in a thread
@@ -125,9 +128,10 @@ void Intersection::simulate() // using threads + promises/futures + exceptions
 }
 
 void Intersection::processVehicleQueue() {
-  // print id of the current thread
-  // std::cout << "Intersection #" << _id << "::processVehicleQueue: thread id =
-  // " << std::this_thread::get_id() << std::endl;
+  std::unique_lock<std::mutex> lck(_mtx);
+  std::cout << "Intersection #" << _id << "::processVehicleQueue: thread id = " 
+            << std::this_thread::get_id() << std::endl;
+  lck.unlock();
 
   // continuously process the vehicle queue
   while (true) {

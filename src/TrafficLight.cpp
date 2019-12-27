@@ -56,6 +56,10 @@ void TrafficLight::waitForGreen() {
   // message queue. Once it receives TrafficLightPhase::green, the method
   // returns.
 
+  // The while loop is not needed in this version because we only enter this
+  // method when the traffic light is red and the state of the traffic lights
+  // is just toggled. However, it is used here to work with future extensions 
+  // that would might use an amber light as well.
   while (true) {
     // sleep at every iteration to reduce CPU usage
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));

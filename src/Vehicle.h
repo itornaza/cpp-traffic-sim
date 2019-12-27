@@ -20,7 +20,7 @@ public:
   void setCurrentDestination(std::shared_ptr<Intersection> destination);
 
   // typical behaviour methods
-  void simulate();
+  void simulate() override;
 
   // miscellaneous
   std::shared_ptr<Vehicle> get_shared_this() { return shared_from_this(); }
