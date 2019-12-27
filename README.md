@@ -1,6 +1,6 @@
-# Concurrent Traffic Simulation - Under Construction
+# Concurrent Traffic Simulation
 
-<img src="data/traffic_simulation.gif"/>
+<img src="data/splash.png"/>
 
 This project adds traffic lights functionality to the udacity [starter code](https://github.com/udacity/CppND-Program-a-Concurrent-Traffic-Simulation) to satisfy this [rubric](https://review.udacity.com/#!/rubrics/2640/view). The starter code already impements a traffic simulation in which vehicles are moving along streets and are crossing intersections. 
 
