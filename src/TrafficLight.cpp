@@ -56,16 +56,13 @@ void TrafficLight::waitForGreen() {
   // message queue. Once it receives TrafficLightPhase::green, the method
   // returns.
 
-  // The while loop is not needed in this version because we only enter this
-  // method when the traffic light is red and the state of the traffic lights
-  // is just toggled. However, it is used here to work with future extensions 
-  // that would might use an amber light as well.
   while (true) {
     // sleep at every iteration to reduce CPU usage
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
+    // just get the traffic light phase, without updating any state. The phase
+    // is toggled within the simulate method.
     TrafficLightPhase phase = _phasesQueue->receive();
-    setCurrentPhase(phase);
     if (phase == TrafficLightPhase::green) { return; }
   }
 }
@@ -92,6 +89,13 @@ void TrafficLight::cycleThroughPhases() {
   // seconds. Also, the while-loop should use std::this_thread::sleep_for to
   // wait 1ms between two cycles.
 
+  // random number generator
+  // https://stackoverflow.com/questions/7560114/random-number-c-in-some-range
+  // http://www.cplusplus.com/reference/random/mersenne_twister_engine/
+  std::random_device rd; // obtain a random number from hardware
+  std::mt19937 eng(rd()); // seed the generator
+  std::uniform_int_distribution<> distr(4, 6); // define the range
+
   // init stop watch
   std::chrono::time_point<std::chrono::system_clock> lastUpdate;
   lastUpdate = std::chrono::system_clock::now();
@@ -106,18 +110,19 @@ void TrafficLight::cycleThroughPhases() {
                                 .count();
 
     // toggle the state of the traffic light
-    if (timeSinceLastUpdate >= 4 && timeSinceLastUpdate <= 6) {
+    if (timeSinceLastUpdate >= distr(eng)) {
       if (_currentPhase == TrafficLightPhase::red) {
         _currentPhase = TrafficLightPhase::green;
       } else {
         _currentPhase = TrafficLightPhase::red;
       } // End inner if-else
 
-      TrafficLightPhase message = getCurrentPhase();
+      // the _currentPhase that is toggled after every cycle duration is sent 
+      // to the queue.
       auto future = std::async(std::launch::async, 
                                &MessageQueue<TrafficLightPhase>::send,
                                _phasesQueue, 
-                               std::move(message));
+                               std::move(_currentPhase));
       future.wait();
 
       // reset stop watch for next cycle
