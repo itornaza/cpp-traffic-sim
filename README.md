@@ -4,7 +4,7 @@
 
 This project adds traffic lights functionality to the udacity [starter code](https://github.com/udacity/CppND-Program-a-Concurrent-Traffic-Simulation) to satisfy this [rubric](https://review.udacity.com/#!/rubrics/2640/view). The starter code already impements a traffic simulation in which vehicles are moving along streets and are crossing intersections. 
 
-This update deals with increasing traffic in the city, where traffic lights are needed for road safety. Each intersection is therefore equipped with a traffic light. Also, this update builds a suitable and thread-safe communication protocol between vehicles and intersections to complete the simulation. In order to achieve that, concepts of concurrent programming (such as mutexes, locks and message queues) are used to implement the traffic lights and thier integration in the code base.
+This update deals with increasing traffic in the city, where traffic lights are needed for road safety. Each intersection is therefore equipped with a traffic light. Also, this update builds a suitable and thread-safe communication protocol between vehicles and intersections to complete the simulation. In order to achieve that, concepts of concurrent programming (such as mutexes, locks and message queues) are used to implement the traffic lights and their integration into the code base.
 
 Check this [video](https://www.youtube.com/watch?v=3Cddvt0tG_Y) for a simulation run.
 
